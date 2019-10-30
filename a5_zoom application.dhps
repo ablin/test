@@ -1,0 +1,12 @@
+xwin-sprojet       2.0
+[general]
+date="20120309069509091899"
+util="DEMO"
+[communs]
+incl="a5_base"," "
+incl="a5_rsql"," "
+[fichiers]
+fic="a5ez224_sql.dhsf"," "
+fic="a5tz224_sql.dhsp"," "
+[includes]
+[autres]

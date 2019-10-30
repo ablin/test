@@ -1,0 +1,43 @@
+SetModuleInfo('$Id: a5tqsuptmp.dhsp 29909 2013-02-26 14:38:56Z als $')
+;*
+;*		Suppression des fichiers temporaires
+;*
+
+OverWrittenBy 	"A5UQSUPTMP.dhop"
+
+
+1		nbFicTemp		3,0					; Nombre de fichiers temporaires à supprimer
+1		cptFicTemp		4,0					; Compteur de boucle
+1		nomFichier		>GTFDD.dhsd Fic	; Nom complet du fichier
+1		statusDel		X						; Status de suppression du fichier temporaire
+1		retour			1,0 = 0				; Valeur de retour
+
+;*
+Public Procedure Supprime_fichier
+;*
+
+Beginp
+
+	If PingReceiveAndDelete('NombreFichiersTemporaires', nbFicTemp) <> 0		; Pas de fichiers temporaires à supprimer
+		Pong('FicTmp_ErreurSuppression', retour)
+		ProgramExit
+	EndIf
+
+	For cptFicTemp = 1 to nbFicTemp
+		If PingReceiveAndDelete([ 'FichierTemporaireASupprimer' ToString(cptFicTemp) ], nomFichier) = 0
+			If HDeleteFile(nomFichier, statusDel) <> 0
+				retour = 1
+			EndIf
+		Else
+			retour = 1
+		EndIf
+	Next
+
+	Pong('FicTmp_ErreurSuppression', retour)
+
+Endp
+
+
+Main
+
+	Supprime_fichier
